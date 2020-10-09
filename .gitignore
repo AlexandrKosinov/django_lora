@@ -91,3 +91,6 @@ local_settings.py
 *.prod.yaml
 *.prod.sh
 db.sqlite3
+
+#IDEA
+.idea/
