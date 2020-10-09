@@ -1,0 +1,4 @@
+
+Bpython:S125"Remove this commented out code.(¥ÝÂßþÿÿÿÿ8Çõ­ôÇ.
+vpython:S117K"XRename this local variable "devInfo" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾¿“Ó8Ÿ–¢ÅÇ.
+zpython:S117"WRename this local variable "userId" to match the regular expression ^[_a-z][a-z0-9_]*$.(ê•Òæúÿÿÿÿ8è¤¦¾É.
