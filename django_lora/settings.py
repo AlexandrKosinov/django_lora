@@ -146,7 +146,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:8000",
     "http://127.0.0.1:1337",
     "http://localhost:1337",
-    "http://77.120.110.182",
+    u'http://agrilora.net',
+    u'http://77.120.110.182',
 ]
 
 REST_FRAMEWORK = {

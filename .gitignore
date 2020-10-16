@@ -90,6 +90,9 @@ local_settings.py
 *.prod
 *.prod.yaml
 *.prod.sh
+*.image
+*.image.yaml
+init_db.sql
 db.sqlite3
 
 #IDEA
