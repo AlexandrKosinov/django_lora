@@ -94,6 +94,7 @@ local_settings.py
 *.image.yaml
 init_db.sql
 db.sqlite3
+.lora_networks/migrations/
 
 #IDEA
 .idea/

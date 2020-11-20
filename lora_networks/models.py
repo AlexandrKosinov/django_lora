@@ -47,7 +47,8 @@ class Getaway(models.Model):
 
 class Node(models.Model):
     """Lora Node"""
-    name = models.CharField("Node", max_length=150)
+    name = models.CharField("Node", max_length=24)
+    nick = models.CharField("nick", max_length=50, blank=True)
     longitude = models.FloatField(validators=[MinValueValidator(-180.0), MaxValueValidator(180)])
     latitude = models.FloatField(validators=[MinValueValidator(-90.0), MaxValueValidator(90)])
     charge = models.FloatField()
@@ -64,7 +65,8 @@ class Node(models.Model):
 
 class Device(models.Model):
     """Device"""
-    name = models.CharField("Device", max_length=150)
+    name = models.CharField("Device", max_length=36)
+    description = models.CharField("description", max_length=150, blank=True)
     units = models.CharField("units", max_length=10)
     node = models.ForeignKey(Node, models.deletion.CASCADE, related_name="devices")
 
