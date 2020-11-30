@@ -1,21 +1,12 @@
 from django.contrib.auth.models import User
-from django.views.generic.base import View
 from rest_framework import permissions
-
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
 from lora_networks.models import Network, Getaway, Node, Device, Device_info
 from lora_networks.serializers import LoraNetworkListSerializer, LoraGetawayListSerializer, \
-    LoraNodeListSerializer, LoraDeviceListSerializer, LoraDeviceInfoListSerializer, LoraUserIdSerializer
+    LoraNodeListSerializer, LoraDeviceListSerializer, LoraDeviceInfoListSerializer, LoraUserIdSerializer, \
+    CreateChartDeviceInfoSerializer
 
-
-# class OwnersView(APIView):
-#
-#     def get(self, request):
-#         owners = Owner.objects.all()
-#         serialazer = OwnerListSerializer(owners, many=True)
-#         return Response(serialazer.data)
 
 class LoadUserId(APIView):
 
@@ -24,8 +15,10 @@ class LoadUserId(APIView):
         serialazer = LoraUserIdSerializer(userId, many=True)
         return Response(serialazer.data)
 
+
 class LoraNetworkListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, owner_id):
         networks = Network.objects.filter(owner=owner_id)
         serialazer = LoraNetworkListSerializer(networks, many=True)
@@ -34,6 +27,7 @@ class LoraNetworkListView(APIView):
 
 class LoraGetawayListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, network_id):
         getaways = Getaway.objects.filter(network=network_id)
         serialazer = LoraGetawayListSerializer(getaways, many=True)
@@ -50,6 +44,7 @@ class LoraNodeListView(APIView):
 
 class LoraDeviceListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, node_id):
         devices = Device.objects.filter(node=node_id)
         serialazer = LoraDeviceListSerializer(devices, many=True)
@@ -71,7 +66,26 @@ class LoraGetawayNodesListView(APIView):
 
 class LoraDeviceInfoListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, dev_id):
         devInfo = Device_info.objects.filter(device=dev_id)
         serialazer = LoraDeviceInfoListSerializer(devInfo, many=True)
+        return Response(serialazer.data)
+
+
+class LoraDeviceInfoDateListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, dev_id,start_date,end_date):
+        devInfo = Device_info.objects.filter(device=dev_id, date__date__range=(start_date, end_date))
+        serialazer = LoraDeviceInfoListSerializer(devInfo, many=True)
+        return Response(serialazer.data)
+
+
+class LoraDeviceInfoChartView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, dev_id,start_date,end_date):
+        devInfo = Device_info.objects.filter(device=dev_id, date__date__range=(start_date, end_date))
+        serialazer = CreateChartDeviceInfoSerializer(devInfo, many=True)
         return Response(serialazer.data)

@@ -1,21 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-import django.db.models.deletion
-# Create your models here.
-
-# class Owner(models.Model):
-#     """Owner"""
-#     name = models.CharField("Owner", max_length=150)
-#     password = models.CharField(max_length=32)
-#     email = models.EmailField()
-#
-#     def __str__(self):
-#         return self.name
-#
-#     class Meta:
-#         verbose_name = "Owner"
-#         verbose_name_plural = "Owners"
 
 
 class Network(models.Model):
@@ -44,6 +29,7 @@ class Getaway(models.Model):
     class Meta:
         verbose_name = "Getaway"
         verbose_name_plural = "Getaways"
+
 
 class Node(models.Model):
     """Lora Node"""
