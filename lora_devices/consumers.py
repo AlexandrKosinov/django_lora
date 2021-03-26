@@ -1,5 +1,6 @@
 from channels.generic.websocket import WebsocketConsumer
 import json
+import time
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from lora_networks.models import Device_info, Device, Node
@@ -162,3 +163,38 @@ class NodeConsumer(WebsocketConsumer):
             self.parser()
             self.save_to_db()
             self.send(text_data=json.dumps(self.response))
+
+
+class TimeConsumer(WebsocketConsumer):
+
+    def __init__(self, path):
+        WebsocketConsumer.__init__(self, path)
+        self.buf = b''
+        self.response = dict()
+        self.response['message'] = 'ok'
+
+    def crc99(self, data_len):
+        b = 65535
+        s = 255
+        crc = 0
+        for i in range(data_len):
+            crc = (crc << 2) + crc + self.buf[i]
+            crc = crc & b
+            crc = (crc << 2) + crc + self.buf[i]
+            crc = crc & b
+            crc = (crc ^ (crc >> 8))
+        return crc & s
+
+    def connect(self):
+        self.accept()
+
+    def disconnect(self, close_code):
+        pass
+
+    def receive(self, text_data=None, bytes_data=None):
+        tim = round(time.time()*1000)
+        self.buf = bytes(str(tim), 'utf-8')
+        message_length = len(self.buf)-1
+        crc = self.crc99(message_length)
+        self.response['message'] = str(tim) + "#" + str(crc)
+        self.send(text_data=json.dumps(self.response))
